@@ -1,8 +1,10 @@
-#include <iostream>
 #include <SDL.h>
+#include "../include/Game.h"
 
 int main(int argc, char* argv[])
 {
-	std::cout << "Hello, World!" << std::endl;
+	Game& game = Game::GetInstance();
+	game.Run();
+
 	return 0;
 }
