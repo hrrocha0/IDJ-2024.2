@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <SDL_image.h>
 #include "../include/Sprite.h"
@@ -28,6 +29,12 @@ void Sprite::Open(const std::string& file)
 		SDL_DestroyTexture(texture);
 	}
 	texture = IMG_LoadTexture(game.GetRenderer(), file.c_str());
+
+	if (texture == nullptr)
+	{
+		std::cerr << "Unable to load texture " << file << ": " << SDL_GetError() << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 }
 
@@ -43,6 +50,11 @@ void Sprite::Render(int x, int y)
 {
 	Game& game = Game::GetInstance();
 
+	if (texture == nullptr)
+	{
+		std::cerr << "Texture not loaded" << std::endl;
+		std::exit(EXIT_FAILURE);
+	}
 	SDL_RenderCopy(game.GetRenderer(), texture, &clipRect, new SDL_Rect{ x, y, clipRect.w,
 		clipRect.h });
 }
